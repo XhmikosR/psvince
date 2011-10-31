@@ -2,8 +2,6 @@
 // Microsoft Developer Studio generated include file.
 // Used by verinfo.rc
 //
-#define IDC_STATIC                      -1
-#define IDR_RT_MANIFEST                 1
 
 // Next default values for new objects
 // 

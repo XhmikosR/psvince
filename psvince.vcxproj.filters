@@ -33,11 +33,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="psvince.dll.manifest">
-      <Filter>Resource Files</Filter>
-    </Manifest>
-  </ItemGroup>
-  <ItemGroup>
     <CustomBuild Include="psvince.def" />
   </ItemGroup>
 </Project>
