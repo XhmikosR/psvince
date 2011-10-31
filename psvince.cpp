@@ -2,8 +2,8 @@
 //
 
 #include "stdafx.h"
-#include "tlhelp32.h"
-#include "vdmdbg.h"
+#include <tlhelp32.h>
+#include <vdmdbg.h>
 
 
 typedef struct {
