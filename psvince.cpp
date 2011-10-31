@@ -13,6 +13,7 @@ typedef struct {
 } EnumInfoStruct;
 
 BOOL WINAPI EnumProcs(char* procname);
+BOOL WINAPI EnumProcs2(char* procname);
 
 
 BOOL APIENTRY DllMain(HANDLE hModule,
@@ -303,3 +304,28 @@ BOOL WINAPI EnumProcs(char* procname)
     return (retcode);
 }
 
+
+int APIENTRY IsModuleLoaded2(char *lpModule)
+{
+    return EnumProcs2(lpModule);
+}
+
+
+BOOL WINAPI EnumProcs2(char* procname)
+{
+    //MessageBox(NULL, procname, "msg", MB_OK);
+    HANDLE handleToSnapshot;
+    PROCESSENTRY32 procEntry;
+    procEntry.dwSize = sizeof(PROCESSENTRY32);
+    handleToSnapshot = CreateToolhelp32Snapshot(2, 0);
+    if (Process32First(handleToSnapshot, &procEntry)) {
+        do {
+            //MessageBox(NULL, procEntry.szExeFile, "msg",MB_OK);
+            if (strcmp(procname, procEntry.szExeFile) == 0) {
+                //delete handleToSnapshot;
+                return TRUE;
+            }
+        } while (Process32Next(handleToSnapshot, &procEntry));
+    }
+    return FALSE;
+}
