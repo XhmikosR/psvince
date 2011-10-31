@@ -41,10 +41,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="1"
+				Optimization="2"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;PSVINCE_EXPORTS"
 				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -190,10 +189,6 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="psvince.def"
-				>
-			</File>
-			<File
 				RelativePath="stdafx.h"
 				>
 			</File>
@@ -207,6 +202,10 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath="psvince.def"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
