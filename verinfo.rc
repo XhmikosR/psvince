@@ -25,8 +25,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION 1,0,0,2
+ PRODUCTVERSION 1,0,0,2
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x29L
@@ -44,13 +44,13 @@ BEGIN
             VALUE "Comments", "vincenzog@libero.it"
             VALUE "CompanyName", "Vincenzo Giordano"
             VALUE "FileDescription", "psvince.dll for InnoSetup Extensions"
-            VALUE "FileVersion", "1.0.0.1"
+            VALUE "FileVersion", "1.0.0.2"
             VALUE "InternalName", "psvince"
-            VALUE "LegalCopyright", "Copyright © 2001 Vincenzo Giordano"
-            VALUE "LegalTrademarks", "Copyright © 2001 Vincenzo Giordano"
+            VALUE "LegalCopyright", "Copyright (C) 2001 Vincenzo Giordano"
+            VALUE "LegalTrademarks", "Copyright (C) 2001 Vincenzo Giordano"
             VALUE "OriginalFilename", "psvince.dll"
             VALUE "ProductName", "psvince"
-            VALUE "ProductVersion", "1.0.0.1"
+            VALUE "ProductVersion", "1.0.0.2"
         END
     END
     BLOCK "VarFileInfo"
