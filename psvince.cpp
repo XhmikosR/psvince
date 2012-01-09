@@ -21,6 +21,9 @@ BOOL APIENTRY DllMain(HANDLE hModule,
                       LPVOID lpReserved
                      )
 {
+    UNREFERENCED_PARAMETER(hModule);
+    UNREFERENCED_PARAMETER(ul_reason_for_call);
+    UNREFERENCED_PARAMETER(lpReserved);
     return TRUE;
 }
 
@@ -36,9 +39,6 @@ BOOL WINAPI EnumProcs(char* procname)
     OSVERSIONINFO  osver;
     HINSTANCE      hInstLib;
     //HINSTANCE      hInstLib2;
-    HANDLE         hSnapShot;
-    PROCESSENTRY32 procentry;
-    BOOL           bFlag;
     LPDWORD        lpdwPIDs;
     DWORD          dwSize, dwSize2, dwIndex;
     HMODULE        hMod;
@@ -51,16 +51,10 @@ BOOL WINAPI EnumProcs(char* procname)
 
     //EnumInfoStruct sInfo;
 
-    // ToolHelp Function Pointers.
-
-    HANDLE(WINAPI * lpfCreateToolhelp32Snapshot)(DWORD, DWORD);
-    BOOL (WINAPI * lpfProcess32First)(HANDLE, LPPROCESSENTRY32);
-    BOOL (WINAPI * lpfProcess32Next)(HANDLE, LPPROCESSENTRY32);
-
     // PSAPI Function Pointers.
 
-    BOOL (WINAPI * lpfEnumProcesses)(DWORD *, DWORD cb, DWORD *);
-    BOOL (WINAPI * lpfEnumProcessModules)(HANDLE, HMODULE *, DWORD, LPDWORD);
+    BOOL  (WINAPI * lpfEnumProcesses)(DWORD *, DWORD cb, DWORD *);
+    BOOL  (WINAPI * lpfEnumProcessModules)(HANDLE, HMODULE *, DWORD, LPDWORD);
     DWORD (WINAPI * lpfGetModuleFileNameEx)(HANDLE, HMODULE, LPTSTR, DWORD);
 
 
@@ -68,8 +62,7 @@ BOOL WINAPI EnumProcs(char* procname)
     //INT (WINAPI *lpfVDMEnumTaskWOWEx)(DWORD, TASKENUMPROCEX fp, LPARAM);
 
 
-    // Check to see if were running under Windows95 or
-    // Windows NT.
+    // Check to see if were running under Windows NT.
 
     osver.dwOSVersionInfoSize = sizeof(osver);
     if (!GetVersionEx(&osver)) {
@@ -223,77 +216,6 @@ BOOL WINAPI EnumProcs(char* procname)
         HeapFree(GetProcessHeap(), 0, lpdwPIDs);
         //FreeLibrary(hInstLib2);
 
-        // If Windows 95:
-
-    } else if (osver.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
-
-    {
-
-        hInstLib = LoadLibraryA("Kernel32.DLL");
-        if (hInstLib == NULL) {
-            return FALSE;
-        }
-
-        // Get procedure addresses.
-        // We are linking to these functions of Kernel32
-        // explicitly, because otherwise a module using
-        // this code would fail to load under Windows NT,
-        // which does not have the Toolhelp32
-        // functions in the Kernel 32.
-
-        lpfCreateToolhelp32Snapshot =
-            (HANDLE(WINAPI *)(DWORD, DWORD))
-            GetProcAddress(hInstLib,
-                           "CreateToolhelp32Snapshot");
-
-        lpfProcess32First =
-            (BOOL(WINAPI *)(HANDLE, LPPROCESSENTRY32))
-            GetProcAddress(hInstLib, "Process32First");
-
-        lpfProcess32Next =
-            (BOOL(WINAPI *)(HANDLE, LPPROCESSENTRY32))
-            GetProcAddress(hInstLib, "Process32Next");
-
-        if (lpfProcess32Next == NULL ||
-                lpfProcess32First == NULL ||
-                lpfCreateToolhelp32Snapshot == NULL) {
-            FreeLibrary(hInstLib);
-            return FALSE;
-        }
-
-        // Get a handle to a Toolhelp snapshot of the systems
-        // processes.
-        hSnapShot = lpfCreateToolhelp32Snapshot(
-                        TH32CS_SNAPPROCESS, 0);
-        if (hSnapShot == INVALID_HANDLE_VALUE) {
-            FreeLibrary(hInstLib);
-            return FALSE;
-        }
-
-
-        // Get the first process' information.
-        procentry.dwSize = sizeof(PROCESSENTRY32);
-        bFlag = lpfProcess32First(hSnapShot, &procentry);
-
-        // While there are processes, keep looping.
-        while (bFlag) {
-
-            // rendo minuscolo il modulo
-            _strlwr(procentry.szExeFile);
-            // estraggo il filename
-            nomemodulo = strrchr(procentry.szExeFile, '\\');
-            if (nomemodulo) {
-                nomemodulo++;
-            }
-
-            if (strcmp(nomemodulo, procname) == 0) {
-                retcode = true;
-            }
-
-            procentry.dwSize = sizeof(PROCESSENTRY32);
-            bFlag = lpfProcess32Next(hSnapShot, &procentry);
-        }
-
     } else {
         return FALSE;
     }
@@ -314,10 +236,11 @@ int APIENTRY IsModuleLoaded2(char *lpModule)
 BOOL WINAPI EnumProcs2(char* procname)
 {
     //MessageBox(NULL, procname, "msg", MB_OK);
-    HANDLE handleToSnapshot;
+    HANDLE         handleToSnapshot;
     PROCESSENTRY32 procEntry;
     procEntry.dwSize = sizeof(PROCESSENTRY32);
     handleToSnapshot = CreateToolhelp32Snapshot(2, 0);
+
     if (Process32First(handleToSnapshot, &procEntry)) {
         do {
             //MessageBox(NULL, procEntry.szExeFile, "msg",MB_OK);
