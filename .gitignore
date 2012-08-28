@@ -1,8 +1,9 @@
-/bin
-/ipch
+/*.aps
 /*.opensdf
 /*.sdf
 /*.suo
+/*.user
+/Debug
+/ipch
+/Release
 /testpsvince.exe
-/src/*.aps
-/src/*.user
