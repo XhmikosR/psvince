@@ -1,15 +1,19 @@
 // psvince.cpp : Defines the entry point for the DLL application.
 //
 
-#include "stdafx.h"
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+
+#include <windows.h>
 #include <tlhelp32.h>
 #include <vdmdbg.h>
 
 
 typedef struct {
-    DWORD   dwPID;
-    DWORD   lParam;
-    BOOL    bEnd;
+    DWORD dwPID;
+    DWORD lParam;
+    BOOL  bEnd;
 } EnumInfoStruct;
 
 BOOL WINAPI EnumProcs(char* procname);
@@ -43,10 +47,8 @@ BOOL WINAPI EnumProcs(char* procname)
     DWORD          dwSize, dwSize2, dwIndex;
     HMODULE        hMod;
     HANDLE         hProcess;
-    char           szFileName[ MAX_PATH ];
-
-    char*   nomemodulo;
-
+    char           szFileName[MAX_PATH];
+    char*          nomemodulo;
     bool retcode = false;
 
     //EnumInfoStruct sInfo;
@@ -236,7 +238,7 @@ int APIENTRY IsModuleLoaded2(char *lpModule)
 BOOL WINAPI EnumProcs2(char* procname)
 {
     //MessageBox(NULL, procname, "msg", MB_OK);
-    HANDLE         handleToSnapshot;
+    HANDLE handleToSnapshot;
     PROCESSENTRY32 procEntry;
     procEntry.dwSize = sizeof(PROCESSENTRY32);
     handleToSnapshot = CreateToolhelp32Snapshot(2, 0);

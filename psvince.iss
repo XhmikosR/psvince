@@ -16,7 +16,7 @@ DisableDirPage=true
 DefaultDirName={pf}\PSVince
 
 [Files]
-Source: psvince.dll; Flags: dontcopy
+Source: Release\psvince.dll; Flags: dontcopy
 
 [Code]
 function IsModuleLoaded(modulename: AnsiString): Boolean;

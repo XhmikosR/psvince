@@ -177,19 +177,11 @@
 				RelativePath="psvince.cpp"
 				>
 			</File>
-			<File
-				RelativePath="stdafx.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-			<File
-				RelativePath="stdafx.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
