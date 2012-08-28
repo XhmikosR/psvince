@@ -1,0 +1,8 @@
+/bin
+/ipch
+/*.opensdf
+/*.sdf
+/*.suo
+/testpsvince.exe
+/src/*.aps
+/src/*.user
