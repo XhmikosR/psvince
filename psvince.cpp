@@ -1,6 +1,3 @@
-// psvince.cpp : Defines the entry point for the DLL application.
-//
-
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif
@@ -9,12 +6,6 @@
 #include <tlhelp32.h>
 #include <vdmdbg.h>
 
-
-typedef struct {
-    DWORD dwPID;
-    DWORD lParam;
-    BOOL  bEnd;
-} EnumInfoStruct;
 
 BOOL WINAPI EnumProcs(char* procname);
 BOOL WINAPI EnumProcs2(char* procname);
@@ -42,7 +33,6 @@ BOOL WINAPI EnumProcs(char* procname)
 
     OSVERSIONINFO  osver;
     HINSTANCE      hInstLib;
-    //HINSTANCE      hInstLib2;
     LPDWORD        lpdwPIDs;
     DWORD          dwSize, dwSize2, dwIndex;
     HMODULE        hMod;
@@ -51,17 +41,12 @@ BOOL WINAPI EnumProcs(char* procname)
     char*          nomemodulo;
     bool retcode = false;
 
-    //EnumInfoStruct sInfo;
-
     // PSAPI Function Pointers.
 
     BOOL  (WINAPI * lpfEnumProcesses)(DWORD *, DWORD cb, DWORD *);
     BOOL  (WINAPI * lpfEnumProcessModules)(HANDLE, HMODULE *, DWORD, LPDWORD);
     DWORD (WINAPI * lpfGetModuleFileNameEx)(HANDLE, HMODULE, LPTSTR, DWORD);
 
-
-    // VDMDBG Function Pointers.
-    //INT (WINAPI *lpfVDMEnumTaskWOWEx)(DWORD, TASKENUMPROCEX fp, LPARAM);
 
 
     // Check to see if were running under Windows NT.
@@ -86,19 +71,14 @@ BOOL WINAPI EnumProcs(char* procname)
             return FALSE;
         }
 
-        //hInstLib2 = LoadLibraryA("VDMDBG.DLL");
-        //if(hInstLib2 == NULL) return FALSE;
-
         // Get procedure addresses.
         lpfEnumProcesses = (BOOL(WINAPI *)(DWORD *, DWORD, DWORD*)) GetProcAddress(hInstLib, "EnumProcesses");
         lpfEnumProcessModules = (BOOL(WINAPI *)(HANDLE, HMODULE *, DWORD, LPDWORD)) GetProcAddress(hInstLib, "EnumProcessModules");
         lpfGetModuleFileNameEx = (DWORD (WINAPI *)(HANDLE, HMODULE, LPTSTR, DWORD)) GetProcAddress(hInstLib, "GetModuleFileNameExA");
-        //lpfVDMEnumTaskWOWEx =(INT(WINAPI *)( DWORD, TASKENUMPROCEX, LPARAM)) GetProcAddress(hInstLib2, "VDMEnumTaskWOWEx");
 
         if (lpfEnumProcesses == NULL || lpfEnumProcessModules == NULL ||
                 lpfGetModuleFileNameEx == NULL) { // || lpfVDMEnumTaskWOWEx == NULL)
             FreeLibrary(hInstLib);
-            //FreeLibrary(hInstLib2);
             return FALSE;
         }
 
@@ -129,14 +109,12 @@ BOOL WINAPI EnumProcs(char* procname)
             lpdwPIDs = (LPDWORD)HeapAlloc(GetProcessHeap(), 0, dwSize2);
             if (lpdwPIDs == NULL) {
                 FreeLibrary(hInstLib);
-                //FreeLibrary(hInstLib2);
                 return FALSE;
             }
 
             if (!lpfEnumProcesses(lpdwPIDs, dwSize2, &dwSize)) {
                 HeapFree(GetProcessHeap(), 0, lpdwPIDs);
                 FreeLibrary(hInstLib);
-                //FreeLibrary(hInstLib2);
                 return FALSE;
             }
 
@@ -151,8 +129,7 @@ BOOL WINAPI EnumProcs(char* procname)
 
             // Open the process (if we can... security does not
             // permit every process in the system).
-            hProcess = OpenProcess(
-                           PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, lpdwPIDs[ dwIndex ]);
+            hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, lpdwPIDs[dwIndex]);
 
             if (hProcess != NULL) {
                 // Here we call EnumProcessModules to get only the
@@ -183,40 +160,9 @@ BOOL WINAPI EnumProcs(char* procname)
                 CloseHandle(hProcess);
 
             }
-
-            // Regardless of OpenProcess success or failure, we
-            // still call the enum func with the ProcID.
-
-            //if(!lpProc( lpdwPIDs[dwIndex], 0, szFileName, lParam))
-            //  break;
-
-
-            // Did we just bump into an NTVDM?
-            // Lista processi a 16 nit
-            /*
-            if( _stricmp( szFileName+(strlen(szFileName)-9), "NTVDM.EXE")==0)
-            {
-
-               // Fill in some info for the 16-bit enum proc.
-               sInfo.dwPID = lpdwPIDs[dwIndex];
-               //sInfo.lpProc = lpProc;
-               //sInfo.lParam = lParam;
-               sInfo.bEnd = FALSE;
-
-               // Enum the 16-bit stuff.
-               lpfVDMEnumTaskWOWEx( lpdwPIDs[dwIndex], (TASKENUMPROCEX) Enum16, (LPARAM) &sInfo);
-
-               // Did our main enum func say quit?
-
-               if(sInfo.bEnd)
-                  break;
-            }
-            */
-
         }
 
         HeapFree(GetProcessHeap(), 0, lpdwPIDs);
-        //FreeLibrary(hInstLib2);
 
     } else {
         return FALSE;
