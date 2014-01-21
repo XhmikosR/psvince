@@ -5,10 +5,6 @@
       <UniqueIdentifier>{8bc9e820-7f9b-476e-a54b-c5101d94676c}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{d1c18f2c-8498-4e9a-be24-067c7640488c}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{c2604fc1-c384-44ab-ac3a-9f9b82241960}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
