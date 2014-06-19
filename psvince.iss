@@ -21,6 +21,7 @@ Source: Release\psvince.dll; Flags: dontcopy
 [Code]
 function IsModuleLoaded(modulename: AnsiString): Boolean;
 external 'IsModuleLoaded@files:psvince.dll stdcall';
+//external 'IsModuleLoaded2@files:psvince.dll stdcall'; //for 64-bit processes
 
 function InitializeSetup(): Boolean;
 begin
