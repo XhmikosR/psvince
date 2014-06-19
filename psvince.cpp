@@ -149,10 +149,11 @@ BOOL WINAPI EnumProcs(char* procname)
                     nomemodulo = strrchr(szFileName, '\\');
                     if (nomemodulo) {
                         nomemodulo++;
-                    }
 
-                    if (strcmp(nomemodulo, procname) == 0) {
-                        retcode = true;
+                        if (strcmp(nomemodulo, procname) == 0) {
+                            retcode = true;
+                        }
+
                     }
 
                 }
