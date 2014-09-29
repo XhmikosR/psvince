@@ -39,7 +39,7 @@ BOOL WINAPI EnumProcs(char* procname)
     HANDLE         hProcess;
     char           szFileName[MAX_PATH];
     char*          szModuleName;
-    bool retcode = false;
+    BOOL retcode = FALSE;
 
     // PSAPI Function Pointers.
 
@@ -146,7 +146,7 @@ BOOL WINAPI EnumProcs(char* procname)
                         szModuleName++;
 
                         if (strcmp(szModuleName, procname) == 0) {
-                            retcode = true;
+                            retcode = TRUE;
                         }
 
                     }
@@ -167,7 +167,7 @@ BOOL WINAPI EnumProcs(char* procname)
     // Free the library.
     FreeLibrary(hInstLib);
 
-    return (retcode);
+    return retcode;
 }
 
 
