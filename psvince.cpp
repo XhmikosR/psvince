@@ -38,7 +38,7 @@ BOOL WINAPI EnumProcs(char* procname)
     HMODULE        hMod;
     HANDLE         hProcess;
     char           szFileName[MAX_PATH];
-    char*          nomemodulo;
+    char*          szModuleName;
     bool retcode = false;
 
     // PSAPI Function Pointers.
@@ -56,15 +56,10 @@ BOOL WINAPI EnumProcs(char* procname)
         return FALSE;
     }
 
-    // rendo minuscolo il nome del modulo
+    // Convert to lowercase.
     _strlwr(procname);
 
-    // If Windows NT:
     if (osver.dwPlatformId == VER_PLATFORM_WIN32_NT) {
-        // Load library and get the procedures explicitly. We do
-        // this so that we don't have to worry about modules using
-        // this code failing to load under Windows 95, because
-        // it can't resolve references to the PSAPI.DLL.
 
         hInstLib = LoadLibraryA("PSAPI.DLL");
         if (hInstLib == NULL) {
@@ -138,19 +133,19 @@ BOOL WINAPI EnumProcs(char* procname)
                 // will retrieve the full path name in a second.
                 if (lpfEnumProcessModules(hProcess, &hMod, sizeof(hMod), &dwSize2)) {
 
-                    // Get Full pathname:
+                    // Get full pathname.
                     if (!lpfGetModuleFileNameEx(hProcess, hMod, szFileName, sizeof(szFileName))) {
                         szFileName[0] = 0;
                     }
 
-                    // rendo minuscolo il modulo
+                    // Convert to lowercase.
                     _strlwr(szFileName);
-                    // estraggo il filename
-                    nomemodulo = strrchr(szFileName, '\\');
-                    if (nomemodulo) {
-                        nomemodulo++;
+                    // Extract the filename.
+                    szModuleName = strrchr(szFileName, '\\');
+                    if (szModuleName) {
+                        szModuleName++;
 
-                        if (strcmp(nomemodulo, procname) == 0) {
+                        if (strcmp(szModuleName, procname) == 0) {
                             retcode = true;
                         }
 
@@ -192,7 +187,7 @@ BOOL WINAPI EnumProcs2(char* procname)
 
     if (Process32First(handleToSnapshot, &procEntry)) {
         do {
-            //MessageBox(NULL, procEntry.szExeFile, "msg",MB_OK);
+            //MessageBox(NULL, procEntry.szExeFile, "msg", MB_OK);
             if (strcmp(procname, procEntry.szExeFile) == 0) {
                 //delete handleToSnapshot;
                 return TRUE;
