@@ -188,7 +188,7 @@ BOOL WINAPI EnumProcs2(char* procname)
     if (Process32First(handleToSnapshot, &procEntry)) {
         do {
             //MessageBox(nullptr, procEntry.szExeFile, "msg", MB_OK);
-            if (strcmp(procname, procEntry.szExeFile) == 0) {
+            if (_stricmp(procname, procEntry.szExeFile) == 0) {
                 //delete handleToSnapshot;
                 return TRUE;
             }
