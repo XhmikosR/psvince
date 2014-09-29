@@ -62,7 +62,7 @@ BOOL WINAPI EnumProcs(char* procname)
     if (osver.dwPlatformId == VER_PLATFORM_WIN32_NT) {
 
         hInstLib = LoadLibraryA("PSAPI.DLL");
-        if (hInstLib == NULL) {
+        if (hInstLib == nullptr) {
             return FALSE;
         }
 
@@ -71,8 +71,8 @@ BOOL WINAPI EnumProcs(char* procname)
         lpfEnumProcessModules = (BOOL(WINAPI *)(HANDLE, HMODULE *, DWORD, LPDWORD)) GetProcAddress(hInstLib, "EnumProcessModules");
         lpfGetModuleFileNameEx = (DWORD (WINAPI *)(HANDLE, HMODULE, LPTSTR, DWORD)) GetProcAddress(hInstLib, "GetModuleFileNameExA");
 
-        if (lpfEnumProcesses == NULL || lpfEnumProcessModules == NULL ||
-                lpfGetModuleFileNameEx == NULL) { // || lpfVDMEnumTaskWOWEx == NULL)
+        if (lpfEnumProcesses == nullptr || lpfEnumProcessModules == nullptr ||
+                lpfGetModuleFileNameEx == nullptr) { // || lpfVDMEnumTaskWOWEx == nullptr)
             FreeLibrary(hInstLib);
             return FALSE;
         }
@@ -92,7 +92,7 @@ BOOL WINAPI EnumProcs(char* procname)
         // PIDs in the system.
 
         dwSize2 = 256 * sizeof(DWORD);
-        lpdwPIDs = NULL;
+        lpdwPIDs = nullptr;
 
         do {
 
@@ -102,7 +102,7 @@ BOOL WINAPI EnumProcs(char* procname)
             }
 
             lpdwPIDs = (LPDWORD)HeapAlloc(GetProcessHeap(), 0, dwSize2);
-            if (lpdwPIDs == NULL) {
+            if (lpdwPIDs == nullptr) {
                 FreeLibrary(hInstLib);
                 return FALSE;
             }
@@ -126,7 +126,7 @@ BOOL WINAPI EnumProcs(char* procname)
             // permit every process in the system).
             hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, lpdwPIDs[dwIndex]);
 
-            if (hProcess != NULL) {
+            if (hProcess != nullptr) {
                 // Here we call EnumProcessModules to get only the
                 // first module in the process this is important,
                 // because this will be the .EXE module for which we
@@ -179,7 +179,7 @@ int APIENTRY IsModuleLoaded2(char *lpModule)
 
 BOOL WINAPI EnumProcs2(char* procname)
 {
-    //MessageBox(NULL, procname, "msg", MB_OK);
+    //MessageBox(nullptr, procname, "msg", MB_OK);
     HANDLE handleToSnapshot;
     PROCESSENTRY32 procEntry;
     procEntry.dwSize = sizeof(PROCESSENTRY32);
@@ -187,7 +187,7 @@ BOOL WINAPI EnumProcs2(char* procname)
 
     if (Process32First(handleToSnapshot, &procEntry)) {
         do {
-            //MessageBox(NULL, procEntry.szExeFile, "msg", MB_OK);
+            //MessageBox(nullptr, procEntry.szExeFile, "msg", MB_OK);
             if (strcmp(procname, procEntry.szExeFile) == 0) {
                 //delete handleToSnapshot;
                 return TRUE;
