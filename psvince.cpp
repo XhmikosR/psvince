@@ -2,9 +2,8 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 
-#include <windows.h>
-#include <tlhelp32.h>
-#include <vdmdbg.h>
+#include <Windows.h>
+#include <TlHelp32.h>
 
 
 BOOL WINAPI EnumProcs(char* procname);
