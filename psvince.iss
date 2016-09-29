@@ -6,7 +6,7 @@
 
 [Setup]
 AppName=PSVince
-AppVerName=PSVince 1.1
+AppVerName=PSVince 1.1.1.0
 DisableProgramGroupPage=true
 DisableStartupPrompt=true
 OutputDir=.

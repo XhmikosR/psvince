@@ -4,8 +4,8 @@
 //
 
 1 VERSIONINFO
- FILEVERSION 1,1,0,0
- PRODUCTVERSION 1,1,0,0
+ FILEVERSION 1,1,1,0
+ PRODUCTVERSION 1,1,1,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x29L
@@ -23,13 +23,13 @@ BEGIN
             VALUE "Comments", "vincenzog@libero.it"
             VALUE "CompanyName", "Vincenzo Giordano"
             VALUE "FileDescription", "psvince.dll for Inno Setup"
-            VALUE "FileVersion", "1.1.0.0"
+            VALUE "FileVersion", "1.1.1.0"
             VALUE "InternalName", "psvince"
             VALUE "LegalCopyright", "Copyright (C) 2001 Vincenzo Giordano"
             VALUE "LegalTrademarks", "Copyright (C) 2001 Vincenzo Giordano"
             VALUE "OriginalFilename", "psvince.dll"
             VALUE "ProductName", "psvince"
-            VALUE "ProductVersion", "1.1.0.0"
+            VALUE "ProductVersion", "1.1.1.0"
         END
     END
     BLOCK "VarFileInfo"
