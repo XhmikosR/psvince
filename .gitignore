@@ -1,9 +1,12 @@
 /*.aps
+/*.db
+/*.opendb
 /*.opensdf
 /*.sdf
 /*.suo
 /*.user
-/Debug
-/ipch
-/Release
+/.vs/
+/Debug/
+/ipch/
+/Release/
 /testpsvince.exe
